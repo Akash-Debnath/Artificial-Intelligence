@@ -15,13 +15,12 @@ private JSlider slider;
   private int lineThickness=4;
   private Color oColor=Color.BLUE, xColor=Color.RED;
   static final char BLANK=' ', O='O', X='X';
-  private char position[]={  // Board position (BLANK, O, or X)
+  private char position[]={ 
     BLANK, BLANK, BLANK,
     BLANK, BLANK, BLANK,
     BLANK, BLANK, BLANK};
-  private int wins=0, losses=0, draws=0;  // game count by user
+  private int wins=0, losses=0, draws=0; 
 
-  // Initialize
   public void init() {
     JPanel topPanel=new JPanel();
     topPanel.setLayout(new FlowLayout());
@@ -45,7 +44,6 @@ private JSlider slider;
     board.repaint();
   }
 
-  // Change color of O or X
   public void actionPerformed(ActionEvent e) {
     if (e.getSource()==oButton) {
       Color newColor = JColorChooser.showDialog(this, "Choose a new color for O", oColor);
@@ -60,24 +58,22 @@ private JSlider slider;
     board.repaint();
   }
 
-  // Board is what actually plays and displays the game
+
   private class Board extends JPanel implements MouseListener {
     private Random random=new Random();
     private int rows[][]={{0,2},{3,5},{6,8},{0,6},{1,7},{2,8},{0,8},{2,6}};
-      // Endpoints of the 8 rows in position[] (across, down, diagonally)
 
     public Board() {
       addMouseListener(this);
     }
 
-    // Redraw the board
+
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       int w=getWidth();
       int h=getHeight();
       Graphics2D g2d = (Graphics2D) g;
 
-      // Draw the grid
       g2d.setPaint(Color.WHITE);
       g2d.fill(new Rectangle2D.Double(0, 0, w, h));
       g2d.setPaint(Color.BLACK);
@@ -87,7 +83,7 @@ private JSlider slider;
       g2d.draw(new Line2D.Double(w/3, 0, w/3, h));
       g2d.draw(new Line2D.Double(w*2/3, 0, w*2/3, h));
 
-      // Draw the Os and Xs
+
       for (int i=0; i<9; ++i) {
         double xpos=(i%3+0.5)*w/3.0;
         double ypos=(i/3+0.5)*h/3.0;
@@ -105,7 +101,6 @@ private JSlider slider;
       }
     }
 
-    // Draw an O where the mouse is clicked
     public void mouseClicked(MouseEvent e) {
       int xpos=e.getX()*3/getWidth();
       int ypos=e.getY()*3/getHeight();
@@ -113,27 +108,24 @@ private JSlider slider;
       if (pos>=0 && pos<9 && position[pos]==BLANK) {
         position[pos]=O;
         repaint();
-        putX();  // computer plays
+        putX();  
         repaint();
       }
     }
 
-    // Ignore other mouse events
     public void mousePressed(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
 
-    // Computer plays X
+
     void putX() {
       
-      // Check if game is over
       if (won(O))
         newGame(O);
       else if (isDraw())
         newGame(BLANK);
-
-      // Play X, possibly ending the game
+      
       else {
         nextMove();
         if (won(X))
@@ -143,7 +135,6 @@ private JSlider slider;
       }
     }
 
-    // Return true if player has won
     boolean won(char player) {
       for (int i=0; i<8; ++i)
         if (testRow(player, rows[i][0], rows[i][1]))
@@ -151,18 +142,17 @@ private JSlider slider;
       return false;
     }
 
-    // Has player won in the row from position[a] to position[b]?
     boolean testRow(char player, int a, int b) {
       return position[a]==player && position[b]==player 
           && position[(a+b)/2]==player;
     }
 
-    // Play X in the best spot
+
     void nextMove() {
-      int r=findRow(X);  // complete a row of X and win if possible
+      int r=findRow(X);
       if (r<0)
-        r=findRow(O);  // or try to block O from winning
-      if (r<0) {  // otherwise move randomly
+        r=findRow(O);  
+      if (r<0) {  
         do
           r=random.nextInt(9);
         while (position[r]!=BLANK);
@@ -170,8 +160,7 @@ private JSlider slider;
       position[r]=X;
     }
 
-    // Return 0-8 for the position of a blank spot in a row if the
-    // other 2 spots are occupied by player, or -1 if no spot exists
+
     int findRow(char player) {
       for (int i=0; i<8; ++i) {
         int result=find1Row(player, rows[i][0], rows[i][1]);
@@ -181,11 +170,9 @@ private JSlider slider;
       return -1;
     }
 
-    // If 2 of 3 spots in the row from position[a] to position[b]
-    // are occupied by player and the third is blank, then return the
-    // index of the blank spot, else return -1.
+
     int find1Row(char player, int a, int b) {
-      int c=(a+b)/2;  // middle spot
+      int c=(a+b)/2; 
       if (position[a]==player && position[b]==player && position[c]==BLANK)
         return c;
       if (position[a]==player && position[c]==player && position[b]==BLANK)
@@ -195,7 +182,6 @@ private JSlider slider;
       return -1;
     }
 
-    // Are all 9 spots filled?
     boolean isDraw() {
       for (int i=0; i<9; ++i)
         if (position[i]==BLANK)

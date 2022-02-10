@@ -1,11 +1,11 @@
 
 package ai_lab_final;
 
-public class ChatBotDemo {                                     //Driver Class
+public class ChatBotDemo {                         
 
-	public static void main(String[] args) {             //main class
+	public static void main(String[] args) {            
 		
-          new Chatbot();                                  // instantiation 
+          new Chatbot();                                 
 	}
 
 }

@@ -19,8 +19,7 @@ class Chatbot extends JFrame {
 	private JButton button=new JButton();
 	private JLabel label=new JLabel();
 	
-	Chatbot(){                                                // Layout and Properties defined in Constructer                                         
-		
+	Chatbot(){                                           
 		JFrame frame=new JFrame();                                     
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);                      
 		frame.setVisible(true);
@@ -45,14 +44,14 @@ class Chatbot extends JFrame {
 		button.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				    
-				if(e.getSource()==button) {                           // Message sents on Click button
+				if(e.getSource()==button) {                           
 					
 					String text=textfield.getText().toLowerCase();
 					textarea.setForeground(Color.red);
 					textarea.append("You-->"+text+"\n");
 					textfield.setText("");
 					
-					if(text.contains("hi")) {                         // input Checking
+					if(text.contains("hi")) {                         
 						replyMeth("Hlw. Welcome to IIT,NSTU\n");
 					}
 					else if(text.contains("how are you")) {
@@ -74,7 +73,7 @@ class Chatbot extends JFrame {
                                                  
 					}
                                         
-					else if(text.contains("gender")) {
+					else if(text.contains("what is your sex")) {
 						replyMeth("I've no gender but seem like a man)");
 					}
 					else if(text.contains("married?")) {
@@ -93,7 +92,7 @@ class Chatbot extends JFrame {
 		});
 		
 	}
-	public void replyMeth(String s) {                          // Reply Method
+	public void replyMeth(String s) {                   
 		textarea.append("ChatBot-->"+s+"\n");         
 	}
 			
