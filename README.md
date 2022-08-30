@@ -22,4 +22,4 @@
 ```
 
 
-* [N.B. Firstly I specified PEAS (Performance, Environment, Actuator, Senssor) for all solution of above problems]
+* [N.B. Firstly I specified PEAS (Performance, Environment, Actuator, Sensor) for all solution of above problems]
